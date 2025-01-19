@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 # Abstract Promotion Class
 class Promotion(ABC):
     def __init__(self, name):
@@ -35,3 +36,4 @@ class PercentDiscount(Promotion):
     def apply_promotion(self, product, quantity):
         discount = self.percent / 100
         return quantity * product.price * (1 - discount)
+
