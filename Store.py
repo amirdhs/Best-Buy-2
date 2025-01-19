@@ -16,7 +16,8 @@ class Store:
     def get_total_quantity(self):
         total_quantity = 0
         for product in self.products:
-            total_quantity += product.quantity
+            if product.quantity is not None:  # Check if quantity is valid
+                total_quantity += product.quantity
 
         return f"{total_quantity} items are in the store in total."
 
@@ -49,12 +50,12 @@ class Store:
 # pixel = Products.Product("Google Pixel 7", price=500, quantity=250)
 # store.add_product(pixel)
 #
-product_list = [Products.Product("MacBook Air M2", price=1450, quantity=100),
-                 Products.Product("Bose QuietComfort Earbuds", price=250, quantity=500),
-                 Products.Product("Google Pixel 7", price=500, quantity=250),
-                ]
-#
-store = Store(product_list)
+# product_list = [Products.Product("MacBook Air M2", price=1450, quantity=100),
+#                  Products.Product("Bose QuietComfort Earbuds", price=250, quantity=500),
+#                  Products.Product("Google Pixel 7", price=500, quantity=250),
+#                 ]
+# #
+# store = Store(product_list)
 # products = store.get_all_products()
 # print(store.get_total_quantity())
 # print(store.order([(products[0], 1), (products[1], 2)]))
