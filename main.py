@@ -1,12 +1,26 @@
 import Products
 import Store
+import promotions
 
 # Setup initial stock of inventory
-product_list = [
-    Products.Product("MacBook Air M2", price=1450, quantity=100),
-    Products.Product("Bose QuietComfort Earbuds", price=250, quantity=500),
-    Products.Product("Google Pixel 7", price=500, quantity=250),
-]
+
+product_list = [ Products.Product("MacBook Air M2", price=1450, quantity=100),
+                 Products.Product("Bose QuietComfort Earbuds", price=250, quantity=500),
+                 Products.Product("Google Pixel 7", price=500, quantity=250),
+                 Products.NonStockedProduct("Windows License", price=125),
+                 Products.LimitedProduct("Shipping", price=10, quantity=250, maximum=1)
+               ]
+
+# Create promotion catalog
+second_half_price = promotions.SecondHalfPrice("Second Half price!")
+third_one_free = promotions.ThirdOneFree("Third One Free!")
+thirty_percent = promotions.PercentDiscount("30% off!", percent=30)
+
+# Add promotions to products
+product_list[0].set_promotion(second_half_price)
+product_list[1].set_promotion(third_one_free)
+product_list[3].set_promotion(thirty_percent)
+
 best_buy = Store.Store(product_list)
 
 
@@ -26,8 +40,12 @@ def menu():
 def list_products():
     """List all products in the store."""
     print("Available products:")
-    for product in best_buy.get_all_products():
-        product.show()
+    for product_index, product in enumerate(best_buy.get_all_products(), start=1):
+        print(
+            f"{product_index}. {product.name}, Price: ${product.price}, "
+            f"Quantity: {product.quantity}, Promotion: "
+            f"{product.promotion.name if product.promotion else 'No promotion'}"
+        )
 
 
 def show_total_quantity():
@@ -44,7 +62,8 @@ def make_order():
     for product_index, product in enumerate(products, start=1):
         print(
             f"{product_index}. {product.name}, Price: ${product.price}, "
-            f"Quantity: {product.quantity}"
+            f"Quantity: {product.quantity}, Promotion: "
+            f"{product.promotion.name if product.promotion else 'No promotion'}"
         )
 
     print("------")
