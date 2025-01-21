@@ -71,6 +71,7 @@ def make_order():
         # Determine quantity display
         if isinstance(product, Products.NonStockedProduct):
             quantity_display = "Unlimited"
+
         elif isinstance(product, Products.LimitedProduct):
             quantity_display = f"{product.quantity} , Limited to {product.maximum} per order!"
         else:
@@ -115,7 +116,7 @@ def make_order():
     if shopping_list:
         try:
             total_price = best_buy.order(shopping_list)
-            print(f"Order successful! Total price: ${total_price}")
+            print(total_price)
         except ValueError as e:
             print(f"Order failed: {e}")
     else:

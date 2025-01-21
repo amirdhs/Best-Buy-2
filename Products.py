@@ -86,7 +86,7 @@ class NonStockedProduct(Product):
         else:
             total_price = quantity * self.price
 
-        return f"Total price for {quantity} units of {self.name}: {total_price}"
+        return f"Order successful! Total price: {total_price}"
 
 # LimitedProduct Class
 class LimitedProduct(Product):
