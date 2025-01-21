@@ -8,7 +8,7 @@ product_list = [ Products.Product("MacBook Air M2", price=1450, quantity=100),
                  Products.Product("Bose QuietComfort Earbuds", price=250, quantity=500),
                  Products.Product("Google Pixel 7", price=500, quantity=250),
                  Products.NonStockedProduct("Windows License", price=125),
-                 Products.LimitedProduct("Shipping", price=10, quantity=250, maximum=1)
+                 Products.LimitedProduct("Shipping", price=10, quantity=250, maximum=2)
                ]
 
 # Create promotion catalog
@@ -36,14 +36,22 @@ def menu():
     """
     )
 
-
 def list_products():
     """List all products in the store."""
     print("Available products:")
     for product_index, product in enumerate(best_buy.get_all_products(), start=1):
+        # Determine quantity display
+        if isinstance(product, Products.NonStockedProduct):
+            quantity_display = "Unlimited"
+        elif isinstance(product, Products.LimitedProduct):
+            quantity_display = f"{product.quantity} , Limited to {product.maximum} per order!"
+        else:
+            quantity_display = product.quantity
+
+        # Print product details
         print(
             f"{product_index}. {product.name}, Price: ${product.price}, "
-            f"Quantity: {product.quantity}, Promotion: "
+            f"Quantity: {quantity_display}, Promotion: "
             f"{product.promotion.name if product.promotion else 'No promotion'}"
         )
 
@@ -59,14 +67,23 @@ def make_order():
     products = best_buy.get_all_products()
 
     # Display products with numbers
-    for product_index, product in enumerate(products, start=1):
+    for product_index, product in enumerate(best_buy.get_all_products(), start=1):
+        # Determine quantity display
+        if isinstance(product, Products.NonStockedProduct):
+            quantity_display = "Unlimited"
+        elif isinstance(product, Products.LimitedProduct):
+            quantity_display = f"{product.quantity} , Limited to {product.maximum} per order!"
+        else:
+            quantity_display = product.quantity
+
+        # Print product details
         print(
             f"{product_index}. {product.name}, Price: ${product.price}, "
-            f"Quantity: {product.quantity}, Promotion: "
+            f"Quantity: {quantity_display}, Promotion: "
             f"{product.promotion.name if product.promotion else 'No promotion'}"
         )
 
-    print("------")
+    print("-------------------------------------------------------")
     print("When you want to finish the order, enter an empty text.")
 
     shopping_list = []

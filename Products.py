@@ -94,9 +94,10 @@ class LimitedProduct(Product):
         super().__init__(name, price, quantity)
         self.maximum = maximum
 
+
     def show(self):
-        promo_name = self.promotion.name if self.promotion else "No promotion"
-        print(f"{self.name}, Price: {self.price}, Quantity: {self.quantity}, Maximum: {self.maximum}, Promotion: {promo_name}")
+        promo_name = self.promotion.name if self.promotion else "None"
+        print(f"{self.name}, Price: {self.price}, Quantity: {self.quantity}, Limited to {self.maximum} per order! , Promotion: {promo_name}")
 
     def buy(self, quantity):
         # Check if enough stock is available for purchase
@@ -121,6 +122,7 @@ class LimitedProduct(Product):
 #                 Product("Google Pixel 7", price=500, quantity=250),
 #                 NonStockedProduct("Windows License", price=125),
 #                 LimitedProduct("Shipping", price=10, quantity=250, maximum=1)
+#
 #                ]
 
 # # # Create promotion catalog
@@ -140,3 +142,4 @@ class LimitedProduct(Product):
 # # print(product_list[4].buy(10))
 # # print(product_list[4].buy(9))
 # print(product_list[0].buy(87))
+# print(product_list[4].show())
