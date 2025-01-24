@@ -29,25 +29,41 @@ class Store:
         return active_products
 
     def order(self, shopping_list):
+        total_order_price = 0.0
+
+        # Group items in the shopping list by product
+        order_summary = {}
         for product, quantity in shopping_list:
+            if product in order_summary:
+                order_summary[product] += quantity
+            else:
+                order_summary[product] = quantity
+
+        # Process each unique product
+        for product, total_quantity in order_summary.items():
             if not product.is_active():
                 raise ValueError(f"Cannot order {product.name}, as it is inactive.")
 
             # Handle NonStockedProduct (unlimited quantity)
             if isinstance(product, Products.NonStockedProduct):
-                print(product.buy(quantity))
+                order_result = product.buy(total_quantity)
+                total_order_price += float(order_result.split()[-1])
                 continue
 
             # Check quantity for other product types
-            if quantity > product.quantity:
+            if total_quantity > product.quantity:
                 raise ValueError(
-                    f"Cannot order {quantity} units of {product.name}; only {product.quantity} available.")
+                    f"Cannot order {total_quantity} units of {product.name}; only {product.quantity} available.")
+
+            # Process the order
+            order_result = product.buy(total_quantity)
+            total_order_price += float(order_result.split()[-1])
 
             # Reduce quantity and deactivate product if it runs out
             if product.quantity == 0:
                 product.deactivate()
 
-            return f"{product.buy(quantity)} dollars"
+        return f"Total order price: {total_order_price} dollars"
 
 #
 # bose = Products.Product("Bose QuietComfort Earbuds", price=250, quantity=500)
